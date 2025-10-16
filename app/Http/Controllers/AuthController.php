@@ -80,21 +80,34 @@ class AuthController extends Controller
     public function dashboard()
     {
         $token = Session::get('token');
+        $user = Session::get('user');
 
         if (!$token) {
-            return redirect('/login')->withErrors(['session' => 'Token tidak ditemukan, silakan login lagi.']);
+            return redirect('/login')->withErrors(['session' => 'Silakan login terlebih dahulu.']);
         }
 
-        $response = Http::withToken($token)
-            ->get('http://192.168.18.21:8000/api/v2/mahasiswa');
+        // Contoh data dummy (nanti bisa diganti dengan API)
+        $mataKuliah = [
+            ['nama' => 'Jaringan Komputer', 'dosen' => 'Yasir Arafat', 'waktu' => 'TIF-11'],
+            ['nama' => 'Rekayasa Perangkat Lunak', 'dosen' => 'Yusril Eka Mahendra', 'waktu' => 'TIF-11'],
+            ['nama' => 'Pemrograman Web', 'dosen' => 'Ferry Faisal', 'waktu' => 'TIF-12'],
+        ];
 
-        if ($response->successful()) {
-            $userData = $response->json();
-            return view('dashboard', compact('userData'));
-        } else {
-            return redirect('/login')->withErrors(['session' => 'Token tidak valid atau sudah kedaluwarsa.']);
-        }
+        $tugas = [
+            ['judul' => 'PBL Kelompok', 'deadline' => 'Sept 15'],
+            ['judul' => 'Project PBL', 'deadline' => 'Sept 30'],
+            ['judul' => 'Project Pemrograman', 'deadline' => 'Okt 10'],
+        ];
+
+        return view('dashboard', compact('user', 'mataKuliah', 'tugas'));
     }
+
+    public function logout()
+    {
+        Session::flush();
+        return redirect('/login')->with('success', 'Anda telah logout.');
+    }
+
 
     // ======== FORGOT PASSWORD (LUPA PASSWORD) ========
     public function showForgotPasswordForm()
@@ -162,5 +175,7 @@ class AuthController extends Controller
             return back()->withErrors(['otp' => 'Kode OTP salah atau sudah kadaluarsa.']);
         }
     }
+
+
 
 }

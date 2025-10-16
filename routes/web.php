@@ -17,4 +17,6 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name(
 
 Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('reset-password');
 Route::post('/reset-password', [AuthController::class, 'verifyOtpAndChangePassword'])->name('reset-password.post');
-Route::get('/dashboard', [AuthController::class, 'dashboard']);
+
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
