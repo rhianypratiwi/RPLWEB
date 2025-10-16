@@ -108,12 +108,18 @@ class AuthController extends Controller
             'email' => 'required|email',
         ]);
 
-        // API reset-password -> mengirim OTP ke email user
+        // Kirim ke API lupa password
         $response = Http::post('https://ecd08a6c5ece.ngrok-free.app/api/v2/forgot-password', [
             'email' => $request->email,
         ]);
 
         if ($response->successful()) {
+            $data = $response->json()['data'];
+
+            // Simpan email ke session agar bisa dipakai di halaman berikut
+            session(['reset_email' => $data['email']]);
+
+            // Redirect ke halaman reset password
             return redirect()->route('reset-password')
                 ->with('success', 'Kode OTP telah dikirim ke email Anda. Silakan masukkan kode untuk mengubah password.');
         } else {
@@ -124,8 +130,10 @@ class AuthController extends Controller
     // ======== CHANGE PASSWORD ========
     public function showResetPasswordForm()
     {
-        return view('resetPassword');
+        $email = session('reset_email');
+        return view('resetPassword', compact('email'));
     }
+
 
     public function verifyOtpAndChangePassword(Request $request)
     {
@@ -133,18 +141,22 @@ class AuthController extends Controller
             'otp' => 'required|array|size:6',
             'otp.*' => 'digits:1',
             'new_password' => 'required|min:8|confirmed',
+            'email' => 'required|email',
         ]);
 
         $otpCode = implode('', $request->otp);
 
-        // Kirim ke API change-password
         $response = Http::post('https://ecd08a6c5ece.ngrok-free.app/api/v2/reset-password', [
-            'otp' => $otpCode,
-            'new_password' => $request->new_password,
-            'new_password_confirmation' => $request->new_password_confirmation,
+            'email' => $request->email,
+            'token' => $otpCode,
+            'password' => $request->new_password,
+            'password_confirmation' => $request->new_password_confirmation,
         ]);
 
         if ($response->successful()) {
+            // Bersihkan email dari session biar aman
+            session()->forget('reset_email');
+
             return redirect('/login')->with('success', 'Password berhasil diubah! Silakan login.');
         } else {
             return back()->withErrors(['otp' => 'Kode OTP salah atau sudah kadaluarsa.']);

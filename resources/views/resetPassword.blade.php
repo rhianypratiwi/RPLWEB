@@ -92,6 +92,7 @@
 
         <form method="POST" action="{{ route('reset-password.post') }}">
             @csrf
+            <input type="hidden" name="email" value="{{ $email }}">
             <label class="form-label mb-2">Kode OTP</label>
             <div class="d-flex justify-content-center mb-5">
                 @for($i = 0; $i < 6; $i++)
