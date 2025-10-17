@@ -24,7 +24,7 @@ class AuthController extends Controller
         ]);
 
         // Kirim data ke API register kamu
-        $response = Http::post('http://192.168.18.21:8000/api/v2/registrasi', [
+        $response = Http::post('https://ecd08a6c5ece.ngrok-free.app/api/v2/registrasi', [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -51,7 +51,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $response = Http::post('http://192.168.18.21:8000/api/v2/login', [
+        $response = Http::post('https://ecd08a6c5ece.ngrok-free.app/api/v2/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -35,6 +36,7 @@
       font-size: 0.9rem;
     }
   </style>
+
 </head>
 
 <body>
@@ -44,6 +46,7 @@
         <h2 class="text-center fw-bold">Sign Up!</h2>
         <p class="text-center text-muted mb-4">Silakan buat akun terlebih dahulu</p>
 
+        ```
         {{-- Pesan error --}}
         @if($errors->any())
           <div class="alert alert-danger">
@@ -60,20 +63,21 @@
 
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama lengkap" required>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama lengkap"
+              value="{{ old('name', '') }}" autocomplete="off" required>
           </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email"
-              autocomplete="new-email" required>
+              value="{{ old('email', '') }}" autocomplete="off" required>
           </div>
 
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password"
-                minlength="8" required>
+                minlength="8" autocomplete="new-password" required>
               <small id="passwordHelp" class="text-danger d-none">
                 Password minimal 8 karakter.
               </small>
@@ -82,7 +86,7 @@
             <div class="col-md-6 mb-3">
               <label for="password_confirmation" class="form-label">Confirm Password</label>
               <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                placeholder="Ulangi password" required>
+                placeholder="Ulangi password" autocomplete="new-password" required>
             </div>
           </div>
 
@@ -90,8 +94,8 @@
             <label for="role" class="form-label">Role</label>
             <select class="form-select" id="role" name="role" required>
               <option value="" disabled selected>Pilih role...</option>
-              <option value="mahasiswa">Mahasiswa</option>
-              <option value="dosen">Dosen</option>
+              <option value="mahasiswa" {{ old('role') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+              <option value="dosen" {{ old('role') == 'dosen' ? 'selected' : '' }}>Dosen</option>
             </select>
           </div>
 
@@ -103,6 +107,8 @@
         </p>
       </div>
     </div>
+    ```
+
   </div>
 
   <script>
@@ -117,6 +123,24 @@
       }
     });
   </script>
+
+</body>
+
+</html>
+
+
+<script>
+  const passwordInput = document.getElementById('password');
+  const helpText = document.getElementById('passwordHelp');
+
+  passwordInput.addEventListener('input', () => {
+    if (passwordInput.value.length < 8) {
+      helpText.classList.remove('d-none');
+    } else {
+      helpText.classList.add('d-none');
+    }
+  });
+</script>
 </body>
 
 </html>
