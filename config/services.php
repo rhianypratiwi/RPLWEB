@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'academic_api' => [
+        'base_url' => env('API_BASE_URL', 'http://localhost:8000/api'),
+        'timeout' => env('API_TIMEOUT', 30),
+        'retry_attempts' => env('API_RETRY_ATTEMPTS', 3),
+    ],
+
 ];

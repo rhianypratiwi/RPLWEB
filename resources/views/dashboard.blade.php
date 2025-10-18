@@ -1,3 +1,4 @@
+@extends('layouts.app')
 <!DOCTYPE html>
 <html lang="id">
 
@@ -11,6 +12,16 @@
 
 
   <style>
+    .card-red {
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card-red:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #f8f9fa;
@@ -119,23 +130,25 @@
     <div class="section">
       <h5 class="section-title">Mata Kuliah Hari Ini</h5>
       @foreach ($mataKuliah as $mk)
-        <div class="card-red">
-          <strong>{{ $mk['nama'] }}</strong> <br>
-          <small>{{ $mk['dosen'] }} - {{ $mk['waktu'] }}</small>
-        </div>
+        <a href="{{ route('kelas') }}" class="text-decoration-none">
+          <div class="card-red">
+            <strong>{{ $mk['nama'] }}</strong> <br>
+            <small>{{ $mk['dosen'] }} - {{ $mk['waktu'] }}</small>
+          </div>
+        </a>
       @endforeach
-    </div>
 
-    <div class="section">
-      <h5 class="section-title">Tugas</h5>
-      @foreach ($tugas as $t)
-        <div class="card-red">
-          <strong>{{ $t['judul'] }}</strong>
-          <div class="float-end">{{ $t['deadline'] }}</div>
-        </div>
-      @endforeach
+
+      <div class="section">
+        <h5 class="section-title">Tugas</h5>
+        @foreach ($tugas as $t)
+          <div class="card-red">
+            <strong>{{ $t['judul'] }}</strong>
+            <div class="float-end">{{ $t['deadline'] }}</div>
+          </div>
+        @endforeach
+      </div>
     </div>
-  </div>
 
 </body>
 
