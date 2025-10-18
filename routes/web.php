@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MataKuliahController;
+
+// ==========================
+// 🔐 AUTH ROUTES
+// ==========================
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -18,5 +19,11 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name(
 Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('reset-password');
 Route::post('/reset-password', [AuthController::class, 'verifyOtpAndChangePassword'])->name('reset-password.post');
 
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// ==========================
+// 🏠 DASHBOARD & FITUR
+// ==========================
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/kelas', [MataKuliahController::class, 'index'])->name('kelas');
+Route::get('/profil', [AuthController::class, 'profil'])->name('profil');

@@ -89,19 +89,20 @@
 <body>
   <div class="sidebar">
     <h3>SETRUM</h3>
-    <a href="#" class="active">
+    <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">
       <i class="bi bi-house"></i> Beranda
     </a>
-    <a href="#">
+    <a href="{{ route('kelas') }}" class="{{ request()->is('kelas') ? 'active' : '' }}">
       <i class="bi bi-book"></i> Kelas
     </a>
-    <a href="#">
+    <a href="{{ route('profil') }}" class="{{ request()->is('profil') ? 'active' : '' }}">
       <i class="bi bi-person"></i> Profil
     </a>
     <a href="{{ route('logout') }}">
       <i class="bi bi-box-arrow-right"></i> Keluar
     </a>
   </div>
+
 
 
 
